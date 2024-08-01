@@ -10,18 +10,20 @@ text_list = list(text)
 # Ändra varje bokstav i användarens ord
 # En bokstav i taget flyttar X antal steg framåt i alfabetet beroende på vad man specificerat via input shift.
 # T.ex. ord "abc" med shift 2 blir "cde"
-if direction == "encode":
-  for position in range(len(text_list)):
-    letter = text_list[position]
-    a = alphabet.index(letter) + shift
-    swap = alphabet[a]
-    text_list[position] = swap
-elif direction == "decode":
+if direction == "encode": # Om user input encode
+  for position in range(len(text_list)): # Iterera genom ett spann av 0 - längden på ordet som skall krypteras, tilldela variabel "position" värdet 0,1,2 etc
+    letter = text_list[position] # Tilldela variabel "letter" en bokstav i taget från det krypterade ordet, börja på index 0 och sluta på sista index i ordet
+    a = alphabet.index(letter) + shift # Hämta indexet från listan alphabet motsvarande bokstaven "letter" + förskjutning motsvarande shift. Tilldela detta värde variabel a, detta kommer att vara en siffra motsvarande ordningen i alfabetet
+    if a => len(alphabet): # Om förskjutningen hamnar utanför list-intervallet, se nedan
+      a -= len(alphabet) # Tilldelat värde genom förskjutning - längden på alfabetet. T.ex. Z med shift 5 hade fått index 30, här blir det 30 minus längden på alfabetet (26) = 4, index 4 är E, femte bokstaven i alfabetet
+    swap = alphabet[a] # Variabel "swap" tilldelas en bokstav motsvarande index a i listan alphabet. Var a har just nu en siffra tilldelad
+    text_list[position] = swap # Index position i text_list byts ut mot bokstaven som swap tilldelades. Position har i första iterationen värde 0 så här byter vi först index 0 i ordet, sedan index 1 etc för varje ny iteration 
+elif direction == "decode": # Kod för dekryptering när krypteringen fungerar bättre
   print("We don't support decoding")
 
 print(text_list)
 
-# Kanske kan använda något av detta senare(?)
+# Arkiverad testkod, kanske kan använda något av detta senare(?), fungerar ej just nu
 """"for _ in text:
   for pos in range(len(text_list)):
     x = alphabet.index(_)
