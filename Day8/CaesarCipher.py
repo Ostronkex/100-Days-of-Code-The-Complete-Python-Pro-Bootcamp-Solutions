@@ -1,3 +1,31 @@
+caesar = ["""     
+.----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------. 
+| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
+| |     ______   | || |      __      | || |  _________   | || |    _______   | || |      __      | || |  _______     | |
+| |   .' ___  |  | || |     /  \     | || | |_   ___  |  | || |   /  ___  |  | || |     /  \     | || | |_   __ \    | |
+| |  / .'   \_|  | || |    / /\ \    | || |   | |_  \_|  | || |  |  (__ \_|  | || |    / /\ \    | || |   | |__) |   | |
+| |  | |         | || |   / ____ \   | || |   |  _|  _   | || |   '.___`-.   | || |   / ____ \   | || |   |  __ /    | |
+| |  \ `.___.'\  | || | _/ /    \ \_ | || |  _| |___/ |  | || |  |`\____) |  | || | _/ /    \ \_ | || |  _| |  \ \_  | |
+| |   `._____.'  | || ||____|  |____|| || | |_________|  | || |  |_______.'  | || ||____|  |____|| || | |____| |___| | |
+| |              | || |              | || |              | || |              | || |              | || |              | |
+| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
+ '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' """]
+
+cipher = [""" 
+.----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------. 
+| .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
+| |     ______   | || |     _____    | || |   ______     | || |  ____  ____  | || |  _________   | || |  _______     | |
+| |   .' ___  |  | || |    |_   _|   | || |  |_   __ \   | || | |_   ||   _| | || | |_   ___  |  | || | |_   __ \    | |
+| |  / .'   \_|  | || |      | |     | || |    | |__) |  | || |   | |__| |   | || |   | |_  \_|  | || |   | |__) |   | |
+| |  | |         | || |      | |     | || |    |  ___/   | || |   |  __  |   | || |   |  _|  _   | || |   |  __ /    | |
+| |  \ `.___.'\  | || |     _| |_    | || |   _| |_      | || |  _| |  | |_  | || |  _| |___/ |  | || |  _| |  \ \_  | |
+| |   `._____.'  | || |    |_____|   | || |  |_____|     | || | |____||____| | || | |_________|  | || | |____| |___| | |
+| |              | || |              | || |              | || |              | || |              | || |              | |
+| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
+ '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' """]
+print(caesar)
+print(cipher)
+
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
 direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
@@ -7,9 +35,6 @@ shift = int(input("Type the shift number:\n"))
 # Konvertera input text till en lista för enkel index-hantering
 text_list = list(text)
 
-# Ändra varje bokstav i användarens ord
-# En bokstav i taget flyttar X antal steg framåt i alfabetet beroende på vad man specificerat via input shift.
-# T.ex. ord "abc" med shift 2 blir "cde"
 if direction == "encode": # Om user input encode
   for position in range(len(text_list)): # Iterera genom ett spann av 0 - längden på ordet som skall krypteras, tilldela variabel "position" värdet 0,1,2 etc
     letter = text_list[position] # Tilldela variabel "letter" en bokstav i taget från det krypterade ordet, börja på index 0 och sluta på sista index i ordet
@@ -18,8 +43,17 @@ if direction == "encode": # Om user input encode
       a -= len(alphabet) # Tilldelat värde genom förskjutning - längden på alfabetet. T.ex. Z med shift 5 hade fått index 30, här blir det 30 minus längden på alfabetet (26) = 4, index 4 är E, femte bokstaven i alfabetet
     swap = alphabet[a] # Variabel "swap" tilldelas en bokstav motsvarande index a i listan alphabet. Var a har just nu en siffra tilldelad
     text_list[position] = swap # Index position i text_list byts ut mot bokstaven som swap tilldelades. Position har i första iterationen värde 0 så här byter vi först index 0 i ordet, sedan index 1 etc för varje ny iteration 
-elif direction == "decode": # Kod för dekryptering när krypteringen fungerar bättre
-  print("We don't support decoding")
+  text_list = "".join(text_list)
+  print(f"Your encoded word is: {text_list}")
+  start_over = input("Would you like to encode/decode? Y/N, Yes/No").lower
+elif direction == "decode": # Om user input decode, exakt samma kod som ovan fast omvänd. Minus shift för att gå bakåt i alfabetet.
+    for position in range(len(text_list)): 
+        letter = text_list[position]
+        a = alphabet.index(letter) - shift
+        swap = alphabet[a]
+        text_list[position] = swap
+    text_list = "".join(text_list)
+    print(f"Your decoded word is: {text_list}")
 
 print(text_list)
 
