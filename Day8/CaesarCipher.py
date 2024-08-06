@@ -92,6 +92,4 @@ def main():
         print("Invalid input")
         main()
 main()
-
-print("Test") # Test because of git issues
  
