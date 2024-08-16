@@ -45,6 +45,7 @@ def setup():
         else:
             print("Only numbers are allowed")
             my_bid()
+            print(bidder)
 main()
 
 # Archived code for now, might be useful later
