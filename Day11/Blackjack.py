@@ -40,7 +40,7 @@ def start():
     if answer == "y":
         blackjack_game()
     elif answer == "n":
-        exit
+        exit()
     else:
         print("Invalid entry, try again retard")
         start()
@@ -52,18 +52,20 @@ def question(): # Fråga om ett till kort
         print("\n")
         my_total = 0
         computer_total = 0
-        my_cards.append(random.randint(2, 10))
+        my_cards.append(random.randint(2, 11))
         print(f"Your cards {my_cards}")
         print(f"Computers cards {computers_cards}")
         for _ in my_cards:
             my_total += _
+        if 11 in my_cards and my_total > 21:
+            my_total -= 10
         print(f"Your total is {my_total}")
         if my_total == 21:
             print("Blackjack!")
             exit()
         elif my_total > 21:
             print("Bust, you lose!")
-            exit()
+            again()
         for _ in computers_cards:
             computer_total += _
         print(f"Computers total is {computer_total}")
@@ -79,14 +81,16 @@ def computer_blackjack():
     global computer_total
     while computer_total <= my_total:
         computer_total = 0
-        computers_cards.append(random.randint(2, 10))
+        computers_cards.append(random.randint(2, 11))
         print(computers_cards)
         for _ in computers_cards:
             computer_total += _
+        if computer_total > 21 and 11 in computers_cards:
+            computer_total -= 10
         print(f"Computers total is {computer_total}")
         if computer_total > my_total and computer_total < 22:
             print("Computer wins!")
-            exit()
+            again()
         elif computer_total > 21: 
             print("Computer bust. You win!")
             again()
@@ -94,19 +98,22 @@ def computer_blackjack():
 def blackjack_game(): # Blackjack spel
     global my_cards, card1, card2, computers_card1, computers_card2, my_total, computer_total, my_answer
     print(blackjack)
-    card1 = random.randint(2, 10)
-    card2 = random.randint(2, 10)
+    card1 = random.randint(2, 11)
+    card2 = random.randint(2, 11)
     my_cards.append(card1)
     my_cards.append(card2)
     print(f"Your cards {my_cards}")
-    computers_card1 = random.randint(2, 10)
-    computers_card2 = random.randint(2, 10)
+    computers_card1 = random.randint(2, 11)
+    computers_card2 = random.randint(2, 11)
     computers_cards.append(computers_card1)
     computers_cards.append(computers_card2)
     print(f"Computers cards {computers_cards}")
     for _ in my_cards:
         my_total += _
     print(f"Your total is {my_total}")
+    if my_total == 21:
+        print("Blackjack!")
+        again()
     for _ in computers_cards:
         computer_total += _
     print(f"Computers total is {computer_total}")
@@ -114,9 +121,13 @@ def blackjack_game(): # Blackjack spel
         question()
 
 def again():
-    global reply
-    reply = input("Would you like to play again? yes/y or no/n").lower()
+    global reply, my_cards, my_total, computers_cards, computer_total
+    reply = input("Would you like to play again? yes/y or no/n ").lower()
     if reply == "yes" or reply == "y":
+        my_cards = []
+        my_total = 0
+        computers_cards = []
+        computer_total = 0
         start()
     elif reply == "no" or reply == "n":
         print("Thank you for playing!")
@@ -125,5 +136,6 @@ def again():
         print("Invalid input, try again")
         again()
 start()
+
 
 
