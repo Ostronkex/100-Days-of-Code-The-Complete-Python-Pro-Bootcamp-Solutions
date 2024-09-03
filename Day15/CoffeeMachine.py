@@ -21,3 +21,89 @@
 from CoffeeData import MENU
 from CoffeeData import resources
 import random
+
+maintenance_mode = False
+
+def espresso():
+    print("Espresso")
+
+def latte(): # Latte
+    print("Please insert coins.")
+    quarters = int(input("How many quarters?: "))
+    dimes = int(input("How many dimes?: "))
+    nickles = int(input("How many nickles?: "))
+    pennies = int(input("How many pennies?: "))
+    total = (pennies * 0.01) + (dimes * 0.1) + (nickles * 0.05) + (quarters * 0.25)
+    print(f"The total you paid is ${total}")
+    if total < MENU["latte"]["cost"]:
+        print("Not enough money!")
+        latte()
+    elif total > MENU["latte"]["cost"]:
+        change = total - MENU["latte"]["cost"]
+        print(f"Here is ${change} in change")
+        print("Here is your latte. Enjoy!")
+        resources["water"] = resources["water"] - MENU["latte"]["ingredients"]["water"]
+        resources["milk"] = resources["milk"] - MENU["latte"]["ingredients"]["milk"]
+        resources["coffee"] = resources["coffee"] - MENU["latte"]["ingredients"]["coffee"]
+        resources["money"] = resources["money"] + MENU["latte"]["cost"]
+        report()
+    else:
+        print("Here is your latte. Enjoy!")
+        resources["water"] = resources["water"] - MENU["latte"]["ingredients"]["water"]
+        resources["milk"] = resources["milk"] - MENU["latte"]["ingredients"]["milk"]
+        resources["coffee"] = resources["coffee"] - MENU["latte"]["ingredients"]["coffee"]
+        resources["money"] = resources["money"] + MENU["latte"]["cost"]
+        report()
+              
+def cappuccino():
+    print("Cappuccino")
+
+def report():
+    print(f"Water: {resources["water"]}ml")
+    print(f"Milk: {resources["milk"]}ml")
+    print(f"Coffee: {resources["coffee"]}g")
+    print(f"Money: ${resources["money"]}")
+
+while maintenance_mode == False:
+    user_choice = input("What would you like? (espresso/latte/cappuccino): ").lower()
+
+    if user_choice == "espresso":
+        espresso()
+
+    elif user_choice == "latte":
+        if resources["water"] >= MENU["latte"]["ingredients"]["water"]:
+            None
+        else:
+            print("Sorry there is not enough water.")
+            exit()
+        if resources["milk"] >= MENU["latte"]["ingredients"]["milk"]:
+            None
+        else:
+            print("Sorry there is not enough milk")
+            exit()
+        if resources["coffee"] >= MENU["latte"]["ingredients"]["coffee"]:
+            None
+        else:
+            print("Sorry there is not enough coffee")
+            exit()
+        if resources["water"] >= MENU["latte"]["ingredients"]["water"] and resources["milk"] >= MENU["latte"]["ingredients"]["milk"] and resources["coffee"] >= MENU["latte"]["ingredients"]["coffee"]:
+            latte()
+
+    elif user_choice == "cappuccino":
+        cappuccino()
+
+    elif user_choice == "report":
+        print(f"Water: {resources["water"]}ml")
+        print(f"Milk: {resources["milk"]}ml")
+        print(f"Coffee: {resources["coffee"]}g")
+        print(f"Money: ${resources["money"]}")
+
+    elif user_choice == "off":
+        print("maintenance mode")
+        maintenance_mode = True
+        exit()
+    
+    else:
+        print("Invalid input")
+
+
